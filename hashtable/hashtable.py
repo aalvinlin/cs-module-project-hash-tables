@@ -246,9 +246,28 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
 
+        # store existing hash table values
+        old_storage = self.storage
 
+        # initialize new hash table and update references
+        self.capacity = new_capacity
+        self.storage = [None] * new_capacity
+
+        # go through all the data and add to the new hash table
+        for item in old_storage:
+
+            # if current item is a linked list, add all nodes to new storage
+            if item:
+
+                current_node = item
+
+                while current_node:
+
+                    # insert current key-value pair into new storage
+                    self.put(current_node.key, current_node.value)
+
+                    current_node = current_node.next
 
 if __name__ == "__main__":
     ht = HashTable(8)
