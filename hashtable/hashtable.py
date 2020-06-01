@@ -127,21 +127,27 @@ class HashTable:
         Implement this.
         """
 
-        # increment counter if not replacing an existing value
         hash_index = self.hash_index(key)
         
         # insert into an empty spot
         if not self.storage[hash_index]:
             self.storage[hash_index] = HashTableEntry(key, value)
 
-        # collision detected: find end of linked list and add item there
+        # linked list exists at current location
+        # two possibilities: update value for an existing key OR create a new entry for the new key
         else:
             current_node = self.storage[hash_index]
 
-            while current_node.next:
+            while current_node.key != key and current_node.next:
                 current_node = current_node.next
 
-            current_node.next = HashTableEntry(key, value)
+            # key found. Update current value.
+            if current_node.key == key:
+                current_node.value = value
+
+            # end of list reached without finding the key. Create a new entry.
+            else:
+                current_node.next = HashTableEntry(key, value)
         
         self.items_stored += 1
 
