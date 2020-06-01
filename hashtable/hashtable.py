@@ -132,6 +132,7 @@ class HashTable:
         # insert into an empty spot
         if not self.storage[hash_index]:
             self.storage[hash_index] = HashTableEntry(key, value)
+            self.items_stored += 1
 
         # linked list exists at current location
         # two possibilities: update value for an existing key OR create a new entry for the new key
@@ -148,8 +149,11 @@ class HashTable:
             # end of list reached without finding the key. Create a new entry.
             else:
                 current_node.next = HashTableEntry(key, value)
+                self.items_stored += 1
         
-        self.items_stored += 1
+        # resize hash table if load factor is now too large
+        if self.get_load_factor() > 0.7:
+            self.resize(self.capacity * 2)
 
     def delete(self, key):
         """
@@ -199,7 +203,11 @@ class HashTable:
             # Reassign pointers around this node.
             else:
                 previous_node.next = current_node.next
-                self.items_stored -= 1       
+                self.items_stored -= 1
+        
+        # resize hash table if load factor is now too small
+        if self.get_load_factor() < 0.2:
+            self.resize(min(self.capacity // 2, MIN_CAPACITY))
         
     def get(self, key):
         """
