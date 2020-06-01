@@ -113,11 +113,20 @@ class HashTable:
         # increment counter if not replacing an existing value
         hash_index = self.hash_index(key)
 
+        # insert into an empty spot
         if not self.storage[hash_index]:
-            self.items_stored += 1
+            self.storage[hash_index] = HashTableEntry(key, value)
 
-        self.storage[hash_index] = HashTableEntry(key, value)
+        # collision detected: find end of linked list and add item there
+        else:
+            current_node = HashTableEntry
 
+            while current_node.next:
+                current_node = current_node.next
+
+            current_node.next = HashTableEntry(key, value)
+        
+        self.items_stored += 1
 
     def delete(self, key):
         """
@@ -147,9 +156,21 @@ class HashTable:
         index = self.hash_index(key)
 
         if self.storage[index]:
-            linkedList = self.storage[index]
-            return linkedList.value
+            current_node = self.storage[index]
+            
+            # move to the next node if the key doesn't match, and if there is a next node
+            while current_node.key != key and current_node.next:
+                current_node = current_node.next
 
+            # end of list reached without finding a key
+            if not current_node.next:
+                return None
+            
+            # otherwise, stopped at the correct node. Return its value.
+            else:
+                return current_node.value
+
+        # no linked list at this location. Return None.
         else:
             return None
 
