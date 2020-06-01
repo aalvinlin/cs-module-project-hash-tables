@@ -7,6 +7,18 @@ class HashTableEntry:
         self.value = value
         self.next = None
 
+    def __repr__(self):
+
+        contents = ""
+        current_node = self
+
+        while current_node.next:
+            contents += str(self.value) + " => "
+            current_node = current_node.next
+
+        contents += "None"
+
+        return contents
 
 # Hash table can't have fewer than this many slots
 MIN_CAPACITY = 8
@@ -25,6 +37,11 @@ class HashTable:
         self.items_stored = 0
         self.storage = [None] * capacity
 
+    def __repr__(self):
+        report = f"Hashtable\n {self.items_stored}/{self.capacity} items stored.\n"
+        contents = "\n".join([str(index) + ": " + str(linked_list) for index, linked_list in enumerate(self.storage)])
+
+        return report + contents
 
     def get_num_slots(self):
         """
@@ -112,14 +129,14 @@ class HashTable:
 
         # increment counter if not replacing an existing value
         hash_index = self.hash_index(key)
-
+        
         # insert into an empty spot
         if not self.storage[hash_index]:
             self.storage[hash_index] = HashTableEntry(key, value)
 
         # collision detected: find end of linked list and add item there
         else:
-            current_node = HashTableEntry
+            current_node = self.storage[hash_index]
 
             while current_node.next:
                 current_node = current_node.next
@@ -197,7 +214,7 @@ class HashTable:
 
             # end of list reached without finding a key
             if not current_node.next:
-                return None
+                return current_node.value
             
             # otherwise, stopped at the correct node. Return its value.
             else:
@@ -253,3 +270,5 @@ if __name__ == "__main__":
         print(ht.get(f"line_{i}"))
 
     print("")
+
+    print(ht)
