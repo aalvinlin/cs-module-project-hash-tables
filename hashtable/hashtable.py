@@ -111,10 +111,12 @@ class HashTable:
         """
 
         # increment counter if not replacing an existing value
-        if not self.storage[self.hash_index(key)]:
+        hash_index = self.hash_index(key)
+
+        if not self.storage[hash_index]:
             self.items_stored += 1
 
-        self.storage[self.hash_index(key)] = value
+        self.storage[hash_index] = HashTableEntry(key, value)
 
 
     def delete(self, key):
@@ -145,7 +147,8 @@ class HashTable:
         index = self.hash_index(key)
 
         if self.storage[index]:
-            return self.storage[index]
+            linkedList = self.storage[index]
+            return linkedList.value
 
         else:
             return None
