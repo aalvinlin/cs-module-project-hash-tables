@@ -138,13 +138,46 @@ class HashTable:
         """
         index = self.hash_index(key)
 
-        if self.storage[index]:
-            self.storage[index] = None
-            self.items_stored -= 1
+        # four possibilities when deleting a value associated with a key:
+        # 1. nothing at specified index (nothing to delete)
+        # 2. value to delete is at the head of the list
+        # 3. value to delete is in the middle of the list
+        # 4. value to delete is at the end of the list
 
-        else:
+        current_node = self.storage[index]
+
+        # 1. nothing at specified index (nothing to delete)
+        if not current_node:
             print("Key not found.")
 
+        # 2. value to delete is at the head of the list
+        elif not current_node.next:
+            
+            self.storage[index] = None
+            self.items_stored -= 1
+        
+        else:
+
+            # store a pointer to the previous node
+            previous_node = None
+
+            # move to the next node if the key doesn't match, and if there is a next node
+            while current_node.key != key and current_node.next:
+                previous_node = current_node
+                current_node = current_node.next
+
+            # 4. value to delete is at the end of the list
+            # The current element is the one to delete.
+            if not current_node.next:
+                previous_node.next = None
+                self.items_stored -= 1
+            
+            # 3. value to delete is in the middle of the list
+            # Reassign pointers around this node.
+            else:
+                previous_node.next = current_node.next
+                self.items_stored -= 1       
+        
     def get(self, key):
         """
         Retrieve the value stored with the given key.
