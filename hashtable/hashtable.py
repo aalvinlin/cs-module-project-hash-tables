@@ -70,8 +70,6 @@ class HashTable:
             hash_index *= FNV_PRIME
             hash_index ^= byte
 
-        # print(hash_index)
-
         return hash_index
 
     def djb2(self, key):
@@ -80,16 +78,28 @@ class HashTable:
 
         Implement this, and/or FNV-1.
         """
-        # Your code here
+        
+        # initialize hash_index as 5381
+        # 5381 is only used for historical purposes
+        hash_index = 5381
 
+        bytes_to_process = key.encode()
+
+        for byte in bytes_to_process:
+
+            # 33 is only used for historical purposes
+            hash_index *= 33
+            hash_index += byte
+
+        return hash_index
 
     def hash_index(self, key):
         """
         Take an arbitrary key and return a valid integer index
         between within the storage capacity of the hash table.
         """
-        return self.fnv1(key) % self.capacity
-        # return self.djb2(key) % self.capacity
+        # return self.fnv1(key) % self.capacity
+        return self.djb2(key) % self.capacity
 
     def put(self, key, value):
         """
