@@ -109,6 +109,11 @@ class HashTable:
 
         Implement this.
         """
+
+        # increment counter if not replacing an existing value
+        if not self.storage[self.hash_index(key)]:
+            self.items_stored += 1
+
         self.storage[self.hash_index(key)] = value
 
 
@@ -124,6 +129,7 @@ class HashTable:
 
         if self.storage[index]:
             self.storage[index] = None
+            self.items_stored -= 1
 
         else:
             print("Key not found.")
