@@ -55,8 +55,24 @@ class HashTable:
         Implement this, and/or DJB2.
         """
 
-        # Your code here
+        # 64-bit prime used for calculations
+        FNV_PRIME = 1099511628211
 
+        # 64-bit offset basis used for calculations
+        OFFSET_BASIS = 14695981039346656037
+
+        hash_index = OFFSET_BASIS
+
+        bytes_to_process = key.encode()
+
+        for byte in bytes_to_process:
+
+            hash_index *= FNV_PRIME
+            hash_index ^= byte
+
+        # print(hash_index)
+
+        return hash_index
 
     def djb2(self, key):
         """
@@ -72,8 +88,8 @@ class HashTable:
         Take an arbitrary key and return a valid integer index
         between within the storage capacity of the hash table.
         """
-        #return self.fnv1(key) % self.capacity
-        return self.djb2(key) % self.capacity
+        return self.fnv1(key) % self.capacity
+        # return self.djb2(key) % self.capacity
 
     def put(self, key, value):
         """
@@ -96,8 +112,8 @@ class HashTable:
         """
         index = self.hash_index(key)
 
-        if index:
-            self.put(index, None)
+        if self.storage[index]:
+            self.storage[index] = None
 
         else:
             print("Key not found.")
@@ -112,7 +128,7 @@ class HashTable:
         """
         index = self.hash_index(key)
 
-        if index:
+        if self.storage[index]:
             return self.storage[index]
 
         else:
