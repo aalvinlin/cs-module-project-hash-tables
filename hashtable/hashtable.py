@@ -207,7 +207,14 @@ class HashTable:
         
         # resize hash table if load factor is now too small
         if self.get_load_factor() < 0.2:
-            self.resize(min(self.capacity // 2, MIN_CAPACITY))
+
+            new_capacity = self.capacity // 2
+
+            # don't let smaller size fall below stated minimum
+            if new_capacity < MIN_CAPACITY:
+                new_capacity = MIN_CAPACITY
+
+            self.resize(new_capacity)
         
     def get(self, key):
         """
