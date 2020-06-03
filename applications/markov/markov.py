@@ -71,16 +71,31 @@ start_words_array = list(start_words)
 # construct 5 random sentences
 for sentence_id in range(5):
 
-    # start sentence with a random word from start_words_array
-    sentence = random.choice(start_words_array)
+    # keep track of whether a closing double quote is needed
+    closing_double_quotes_needed = 0
 
-    # pick a random word from the possible words that can follow
-    next_word = random.choice(following_words[sentence])
-    sentence += " " + next_word
+    # start sentence with a random word from start_words_array
+    next_word = random.choice(start_words_array)
+    sentence = next_word
+        
+    # keep track of whether to look for a word with a double-closing quote (if the current word doesn't already have both)
+    if next_word[0] == '"' and next_word[-1] != '"':
+        closing_double_quotes_needed = 1
 
     # continue picking words until an end word is encountered
-    while next_word not in end_words:
+    while True:
+
+        # can end sentence if any opening double quotes have been matched
+        if next_word in end_words and closing_double_quotes_needed == 0:
+            break
+
+        # choose a next word and determine if update double quote count
         next_word = random.choice(following_words[next_word])
         sentence += " " + next_word
+
+        if next_word[0] == '"' and next_word[-1] != '"':
+            closing_double_quotes_needed = 1
+        elif next_word[-1] == '"':
+            closing_double_quotes_needed -= 1
 
     print(sentence, "\n")
