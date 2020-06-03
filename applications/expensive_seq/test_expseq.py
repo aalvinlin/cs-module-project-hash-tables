@@ -1,6 +1,7 @@
 import unittest
 
-from expensive_seq import expensive_seq
+# from expensive_seq import expensive_seq
+from expensive_seq_custom_hashtable import expensive_seq
 
 
 class TestHashTable(unittest.TestCase):
