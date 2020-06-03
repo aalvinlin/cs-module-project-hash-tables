@@ -10,6 +10,9 @@ characters_whitespace = '\n \t \r'.split(" ")
 for whitespace in characters_whitespace:
     words = words.replace(whitespace, " ")
 
+# remove consecutive spaces
+words = words.replace("  ", " ")
+
 # analyze which words can follow other words
 following_words = dict()
 
@@ -25,9 +28,9 @@ for word_id in range(len(words_array)):
 
     word = words_array[word_id]
 
-    # skip blank spaces
-    if len(word) == 0:
-        continue
+    # skip the last word
+    if word_id == len(words_array) - 2:
+        break
 
     # if there is a next word, add it
     if word_id + 1 < len(words_array):
@@ -54,8 +57,8 @@ for word_id in range(len(words_array)):
         if is_end_word and word not in end_words:
             end_words[word] = 1
 
-for data in following_words:
-    print(data, following_words[data])
+# for data in following_words:
+#     print(data, following_words[data])
 
 # for data in start_words:
     # print(data, start_words[data])
