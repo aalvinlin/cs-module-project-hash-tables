@@ -70,8 +70,8 @@ def decode_cipher(file_location):
     known_frequencies = known_frequencies.items()
 
     # sort letter frequencies and known frequencies by frequency (2nd item in each tuple)
-    sorted(letter_frequencies, key=lambda letter: letter[1])
-    sorted(known_frequencies, key=lambda letter: letter[1])
+    letter_frequencies = sorted(letter_frequencies, key=lambda letter: letter[1])
+    known_frequencies = sorted(known_frequencies, key=lambda letter: letter[1])
 
     # create translation table
     encrypted_letters_by_decreasing_frequency = "".join([letter_data[0] for letter_data in letter_frequencies])
@@ -80,8 +80,11 @@ def decode_cipher(file_location):
     translation_table = encrypted_text.maketrans(encrypted_letters_by_decreasing_frequency, known_letters_by_decreasing_frequency)
 
     decrypted_text = encrypted_text.translate(translation_table)
-    
+
     return decrypted_text
 
 
-print(decode_cipher("ciphertext.txt"))
+decrypted_text = decode_cipher("ciphertext.txt")
+
+with open("decryptedtext.txt", "w") as file:
+    file.write(decrypted_text)
