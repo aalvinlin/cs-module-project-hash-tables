@@ -14,6 +14,8 @@ def f(x):
 # since f(x) = 4x + 6, the equation f(a) + f(b) = f(c) - f(d) simplifies to
 # a + b + d + 3 = c
 
+# coin/integer partitions
+
 # examples show cases where a = d, meaning 2a + b + 3 = c
 # examples also show cases where b = d, meaning a + 2b + 3 = c
 
