@@ -72,7 +72,7 @@ start_words_array = list(start_words)
 for sentence_id in range(5):
 
     # keep track of whether a closing double quote is needed
-    closing_double_quotes_needed = 0
+    need_closing_double_quote = False
 
     # start sentence with a random word from start_words_array
     next_word = random.choice(start_words_array)
@@ -80,22 +80,38 @@ for sentence_id in range(5):
         
     # keep track of whether to look for a word with a double-closing quote (if the current word doesn't already have both)
     if next_word[0] == '"' and next_word[-1] != '"':
-        closing_double_quotes_needed = 1
+        need_closing_double_quote = True
 
     # continue picking words until an end word is encountered
     while True:
 
         # can end sentence if any opening double quotes have been matched
-        if next_word in end_words and closing_double_quotes_needed == 0:
+        if next_word in end_words and not need_closing_double_quote:
             break
 
         # choose a next word and determine if update double quote count
         next_word = random.choice(following_words[next_word])
-        sentence += " " + next_word
+                
+        if need_closing_double_quote:
+            
+            # do not allow nesting of double quotes. Next word must not begin with a double quote.
+            if next_word[0] == '"':
+                continue
 
-        if next_word[0] == '"' and next_word[-1] != '"':
-            closing_double_quotes_needed = 1
-        elif next_word[-1] == '"':
-            closing_double_quotes_needed -= 1
+            # next word has a closing double quote; update count
+            elif next_word[-1] == '"':
+                need_closing_double_quote = False
+         
+        else:
+
+            # do not allow a word with a closing double quote if there was no double opening quote before it
+            if next_word[-1] == '"':
+                continue
+
+            # next word has an opening double quote; update count (but only if it doesn't end with a double quote)
+            elif next_word[0] == '"' and next_word[-1] != '"':
+                need_closing_double_quote = True
+
+        sentence += " " + next_word
 
     print(sentence, "\n")
