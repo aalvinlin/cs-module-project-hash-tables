@@ -36,10 +36,10 @@ for word_id in range(len(words_array)):
 
         # start a new set for words to follow if the set doesn't exist yet
         if word not in following_words:
-            following_words[word] = set()
+            following_words[word] = []
 
         # add the next word to the set
-        following_words[word].add(next_word)
+        following_words[word].append(next_word)
 
         # if the word is a start word, add it to the start_words dictionary
         # start word criteria: starts with a capital letter OR starts with a quote and 
@@ -54,8 +54,8 @@ for word_id in range(len(words_array)):
         if is_end_word and word not in end_words:
             end_words[word] = 1
 
-# for data in following_words:
-#     # print(data, following_words[data])
+for data in following_words:
+    print(data, following_words[data])
 
 # for data in start_words:
     # print(data, start_words[data])
