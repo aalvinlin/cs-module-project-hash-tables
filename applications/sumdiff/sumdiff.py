@@ -11,5 +11,9 @@ q = (1, 3, 4, 7, 12)
 def f(x):
     return x * 4 + 6
 
-# Your code here
+# since f(x) = 4x + 6, the equation f(a) + f(b) = f(c) - f(d) simplifies to
+# a + b + d + 3 = c
+
+# examples show cases where a = d, meaning 2a + b + 3 = c
+# examples also show cases where b = d, meaning a + 2b + 3 = c
 
