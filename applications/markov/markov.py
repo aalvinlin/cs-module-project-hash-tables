@@ -10,15 +10,24 @@ characters_whitespace = '\n \t \r'.split(" ")
 for whitespace in characters_whitespace:
     words = words.replace(whitespace, " ")
 
-# TODO: analyze which words can follow other words
+# analyze which words can follow other words
 following_words = dict()
+
+# create additional dictionaries to categorize words as start/end words
+start_words = dict()
+end_words = dict()
+
+ending_punctuation = [".", "?", "!"]
 
 words_array = words.split(" ")
 
 for word_id in range(len(words_array)):
 
     word = words_array[word_id]
-    
+
+    # skip blank spaces
+    if len(word) == 0:
+        continue
 
     # if there is a next word, add it
     if word_id + 1 < len(words_array):
@@ -32,8 +41,28 @@ for word_id in range(len(words_array)):
         # add the next word to the set
         following_words[word].add(next_word)
 
-for data in following_words:
-    print(data, following_words[data])
+        # if the word is a start word, add it to the start_words dictionary
+        # start word criteria: starts with a capital letter OR starts with a quote and 
+        is_start_word = (word[0].isalpha() and word[0] == word[0].upper()) or (len(word) > 1 and word[0] == '"' and word[1].isalpha() and word[1] == word[1].upper())
+
+        if is_start_word and word not in start_words:
+            start_words[word] = 1
+
+        # if the word is an end word, add it to the end_words dictionary
+        is_end_word = (word[-1] in ending_punctuation) or (len(word) > 1 and word[-1] == '"' and word[-2:-1] in ending_punctuation)
+
+        if is_end_word and word not in end_words:
+            end_words[word] = 1
+
+# for data in following_words:
+#     # print(data, following_words[data])
+
+# for data in start_words:
+    # print(data, start_words[data])
+
+# for data in end_words:
+#     print(data, end_words[data])
+
 
 # TODO: construct 5 random sentences
 # Your code here
