@@ -66,7 +66,21 @@ for word_id in range(len(words_array)):
 # for data in end_words:
 #     print(data, end_words[data])
 
+start_words_array = list(start_words)
 
-# TODO: construct 5 random sentences
-# Your code here
+# construct 5 random sentences
+for sentence_id in range(5):
 
+    # start sentence with a random word from start_words_array
+    sentence = random.choice(start_words_array)
+
+    # pick a random word from the possible words that can follow
+    next_word = random.choice(following_words[sentence])
+    sentence += " " + next_word
+
+    # continue picking words until an end word is encountered
+    while next_word not in end_words:
+        next_word = random.choice(following_words[next_word])
+        sentence += " " + next_word
+
+    print(sentence, "\n")
