@@ -3,8 +3,8 @@ find all a, b, c, d in q such that
 f(a) + f(b) = f(c) - f(d)
 """
 
-#q = set(range(1, 10))
-#q = set(range(1, 200))
+# q = set(range(1, 10))
+# q = set(range(1, 200))
 q = (1, 3, 4, 7, 12)
 
 def f(x):
@@ -50,17 +50,30 @@ for number1 in q:
 # check for all values where the sum and difference are the same
 shared_values = set(sums_to_known_tuples.keys()).intersection(set(differences_to_known_tuples.keys()))
 
-# look up all tuple combinations for each sum and difference
-for value in shared_values:
+def print_solutions(show_all_possibilities=True):
 
-    known_sum_tuples = sums_to_known_tuples[value]
-    known_difference_tuples = differences_to_known_tuples[value]
+    # count how many solutions were found
+    solutions = 0
 
-    for sum_tuple in known_sum_tuples:
+    # look up all tuple combinations for each sum and difference
+    for value in shared_values:
 
-        for difference_tuple in known_difference_tuples:
+        known_sum_tuples = sums_to_known_tuples[value]
+        known_difference_tuples = differences_to_known_tuples[value]
 
-            a, b = sum_tuple
-            c, d = difference_tuple
+        solutions += len(known_sum_tuples) * len(known_difference_tuples)
 
-            print(f"f({a}) + f({b}) = f({c}) - f({d})    {function_values[a]} + {function_values[b]} = {function_values[c]} - {function_values[d]}")
+        if show_all_possibilities:
+
+            for sum_tuple in known_sum_tuples:
+
+                for difference_tuple in known_difference_tuples:
+
+                    a, b = sum_tuple
+                    c, d = difference_tuple
+
+                    print(f"f({a}) + f({b}) = f({c}) - f({d})    {function_values[a]} + {function_values[b]} = {function_values[c]} - {function_values[d]}")
+
+    print(solutions, "solutions found for q =", q)
+
+print_solutions(True)
