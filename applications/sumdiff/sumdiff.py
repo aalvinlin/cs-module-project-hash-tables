@@ -60,25 +60,22 @@ for number1 in q:
 
         # store the pairs that will generate each sum
         if pair_sum not in sums_to_known_tuples:
-            sums_to_known_tuples[pair_sum] = []
+            sums_to_known_tuples[pair_sum] = set()
         
-            sums_to_known_tuples[pair_sum].append(tuple_1_2)
+        sums_to_known_tuples[pair_sum].add(tuple_1_2)
+        sums_to_known_tuples[pair_sum].add(tuple_2_1)
 
-            # don't store the pair twice if the numbers are the same: (3, 3)
-            if number1 != number2:
-                sums_to_known_tuples[pair_sum].append(tuple_2_1)
-        
         # store the pair for difference f(number1) - f(number2)
         if pair_difference not in differences_to_known_tuples:
-            differences_to_known_tuples[pair_difference] = []
+            differences_to_known_tuples[pair_difference] = set()
 
-            differences_to_known_tuples[pair_difference].append(tuple_1_2)
+        differences_to_known_tuples[pair_difference].add(tuple_1_2)
 
         # store the pair for difference f(number2) - f(number1)
         if -pair_difference not in differences_to_known_tuples and number1 != number2:
-            differences_to_known_tuples[-pair_difference] = []
+            differences_to_known_tuples[-pair_difference] = set()
 
-            differences_to_known_tuples[-pair_difference].append(tuple_2_1)
+        differences_to_known_tuples[-pair_difference].add(tuple_2_1)
 
 # check for all values where the sum and difference are the same
 shared_values = set(sums_to_known_tuples.keys()).intersection(set(differences_to_known_tuples.keys()))
@@ -98,11 +95,7 @@ for value in shared_values:
 
             print(f"f({a}) + f({b}) = f({c}) - f({d})    {function_values[a]} + {function_values[b]} = {function_values[c]} - {function_values[d]}")
 
-# print(pair_sums, "\n")
-# print(pair_differences, "\n")
 # print(sums_to_known_tuples, "\n")
 # print(differences_to_known_tuples, "\n")
 
-# print(known_sums)
-# print(known_differences)
 # print(shared_values)
