@@ -4,8 +4,8 @@ f(a) + f(b) = f(c) - f(d)
 """
 
 # q = set(range(1, 10))
-# q = set(range(1, 200))
-q = (1, 3, 4, 7, 12)
+q = set(range(1, 200))
+# q = (1, 3, 4, 7, 12)
 
 def f(x):
     return x * 4 + 6
@@ -18,15 +18,23 @@ differences_to_known_tuples = dict()
 
 for number1 in q:
 
-    function_values[number1] = f(number1)
+    # if needed, compute and store f(number1)
+    if number1 not in function_values:
+        function_values[number1] = f(number1)
 
     for number2 in q:
+        
+        # if needed, compute and store f(number2)
+        if number2 not in function_values:
+            function_values[number2] = f(number2)
 
+        # use a variable to keep track of the tuple
         tuple_1_2 = (number1, number2)
         tuple_2_1 = (number2, number1)
 
-        pair_sum = f(number1) + f(number2)
-        pair_difference = f(number1) - f(number2)
+        # compute sums and differences
+        pair_sum = function_values[number1] + function_values[number2]
+        pair_difference = function_values[number1] - function_values[number2]
 
         # store the pairs that will generate each sum
         if pair_sum not in sums_to_known_tuples:
@@ -76,4 +84,5 @@ def print_solutions(show_all_possibilities=True):
 
     print(solutions, "solutions found for q =", q)
 
-print_solutions(True)
+# print_solutions()
+print_solutions(False)
