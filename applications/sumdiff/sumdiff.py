@@ -4,8 +4,8 @@ f(a) + f(b) = f(c) - f(d)
 """
 
 # q = set(range(1, 10))
-q = set(range(1, 200))
-# q = (1, 3, 4, 7, 12)
+# q = set(range(1, 200))
+q = (1, 3, 4, 7, 12)
 
 def f(x):
     return x * 4 + 6
@@ -82,7 +82,7 @@ def print_solutions(show_all_possibilities=True):
 
                     print(f"f({a}) + f({b}) = f({c}) - f({d})    {function_values[a]} + {function_values[b]} = {function_values[c]} - {function_values[d]}")
 
-    print(solutions, "solutions found for q =", q)
+    print("\n", solutions, "solutions found for q =", q)
 
-# print_solutions()
-print_solutions(False)
+print_solutions()
+# print_solutions(False)
